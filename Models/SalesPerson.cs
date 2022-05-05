@@ -16,5 +16,8 @@ namespace Models
         public string SPName { get; set; }
         public string LoginPwd { get; set; }
 
+        //登陆日志ID（扩展属性，用于登陆退出的时候使用）
+        public int LoginLogId { get; set; }
+
     }
 }

@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using DAL;
 
 namespace SMProject
 {
     public partial class FrmSaleManage : Form
     {
-
+        private SalesPersonService objSalesPersonService = new SalesPersonService();
 
         #region  窗体拖动、关闭【实际项目中不用】
 
@@ -51,6 +52,25 @@ namespace SMProject
             InitializeComponent();
          
         }
-     
+
+        /// <summary>
+        /// 窗体关闭前，写入退出日志
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FrmSaleManage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult result = MessageBox.Show("确认退出吗？", "退出提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if(result == DialogResult.Cancel)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                DateTime dt = objSalesPersonService.GetDBServerTimes();
+                objSalesPersonService.WriteExitLog(Program.objCurrentPerson.LoginLogId, dt);
+            }
+            
+        }
     }
 }

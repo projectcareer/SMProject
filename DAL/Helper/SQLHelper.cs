@@ -103,5 +103,14 @@ namespace DAL
             }
          
         }
+        /// <summary>
+        /// 获取数据库服务器时间
+        /// </summary>
+        /// <returns></returns>
+        public static DateTime GetDBServerTime()
+        {
+            string sql = "select getdate()";
+            return Convert.ToDateTime(GetSingleResult(sql, null));
+        }
     }
 }

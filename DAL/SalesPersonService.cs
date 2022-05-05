@@ -40,5 +40,56 @@ namespace DAL
                 return objPerson;
             }
         }
+        /// <summary>
+        /// 添加登陆日志，返回日志编号
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public int WriteLoginLog(LoginLogs info)
+        {
+            string sql = "insert into LoginLogs (loginId,SPName,ServerName)";
+            sql += " values(@LoginId,@SPName,@ServerName); select @@identity";
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@LoginId",info.LoginId),
+                new SqlParameter("@SPName",info.SPName),
+                new SqlParameter("@ServerName ",info.ServerName)
+            };
+
+            try
+            {
+                return Convert.ToInt32(SQLHelper.GetSingleResult(sql,param));
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 将用户退出的时间保存在日志中
+        /// </summary>
+        /// <param name="logld"></param>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public int WriteExitLog(int logld, DateTime dt)
+        {
+            string sql = "update LoginLogs set ExitTime = @ExitTime where LogId = @LogId";
+            SqlParameter[] param = new SqlParameter[]
+             {
+                new SqlParameter("@ExitTime",dt),
+                new SqlParameter("@LogId ",logld)
+             };
+            return SQLHelper.Update(sql, param);
+        }
+
+        /// <summary>
+        /// 获取服务器的时间
+        /// </summary>
+        /// <returns></returns>
+        public DateTime GetDBServerTimes()
+        {
+            return SQLHelper.GetDBServerTime();
+        }
     }
 }

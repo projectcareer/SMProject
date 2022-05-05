@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LoginLogs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SalesPerson.cs" />
     <Compile Include="SysAdmins.cs" />

@@ -11,7 +11,6 @@ using DAL;
 using System.Net;
 
 
-
 namespace SMProject
 {
     public partial class FrmLogin : Form
@@ -49,7 +48,12 @@ namespace SMProject
                     //保存用户信息到全局变量
                     Program.objCurrentPerson = objPerson;
                     //将用户登陆信息写入日志
-
+                    Program.objCurrentPerson.LoginLogId = objService.WriteLoginLog(new LoginLogs()
+                    {
+                        LoginId = Convert.ToInt32(this.txtLoginId.Text.Trim()),
+                        SPName = objPerson.SPName,
+                        ServerName = Dns.GetHostName() //获取当期软件运行所在计算机的名称
+                    }) ;
                     //设置登陆窗体返回值
                     this.DialogResult = DialogResult.OK;
                     this.Close();
